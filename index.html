@@ -326,6 +326,18 @@
           <!-- Dynamic OTP Status Sub-label -->
           <div class="mfa-status-subpane">
             <p id="mfa-method-instruction">Enter the 6-digit verification code sent via SMS to your registered device ending in **45.</p>
+            
+            <!-- Demo OTP Banner -->
+            <div class="demo-otp-banner" id="demo-otp-banner">
+              <span class="otp-hint-label">Demo OTP Code:</span>
+              <strong class="otp-hint-value" id="demo-otp-value">123456</strong>
+              <button type="button" class="btn-quick-fill-otp" id="btn-quick-fill-otp" title="Autofill verification code">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Autofill</span>
+              </button>
+            </div>
           </div>
 
           <!-- OTP Form -->
