@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- DOM CACHE - MFA VIEW ---
   const mfaForm = document.getElementById('portal-mfa-form');
   const mfaOtpInput = document.getElementById('mfa-otp-input');
+  const mfaOtpError = document.getElementById('mfa-otp-error');
   const mfaMethodList = document.getElementById('mfa-method-list');
   const mfaMethodInstruction = document.getElementById('mfa-method-instruction');
   const mfaAlert = document.getElementById('mfa-alert');
@@ -62,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const mfaResendBtn = document.getElementById('btn-mfa-resend');
   const mfaVerifyBtn = document.getElementById('btn-mfa-verify');
   const mfaCancelBtn = document.getElementById('btn-mfa-cancel');
+  const btnQuickFillOtp = document.getElementById('btn-quick-fill-otp');
+  const demoOtpValueText = document.getElementById('demo-otp-value');
 
   // --- DOM CACHE - SUCCESS VIEW ---
   const btnSuccessDashboard = document.getElementById('btn-success-dashboard');
@@ -654,6 +657,37 @@ document.addEventListener('DOMContentLoaded', () => {
     resetLoginForm();
   });
 
+  // Autofill OTP helper
+  if (btnQuickFillOtp) {
+    btnQuickFillOtp.addEventListener('click', () => {
+      if (mfaOtpInput) {
+        mfaOtpInput.value = DEMO_CREDENTIALS.otp;
+        mfaOtpInput.focus();
+      }
+      
+      // Clear previous error states
+      if (mfaOtpInput) mfaOtpInput.classList.remove('input-invalid');
+      if (mfaOtpError) mfaOtpError.classList.add('hidden');
+      if (mfaAlert) mfaAlert.classList.add('hidden');
+
+      // Visual feedback success animation
+      const originalText = btnQuickFillOtp.innerHTML;
+      btnQuickFillOtp.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Loaded</span>
+      `;
+      const originalBg = btnQuickFillOtp.style.backgroundColor;
+      btnQuickFillOtp.style.backgroundColor = '#10B981'; // Success green
+      
+      setTimeout(() => {
+        btnQuickFillOtp.innerHTML = originalText;
+        btnQuickFillOtp.style.backgroundColor = originalBg;
+      }, 1500);
+    });
+  }
+
   // Verify OTP submission
   mfaForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -941,6 +975,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   generateCaptcha();
   initDashboardClock();
+  if (demoOtpValueText) {
+    demoOtpValueText.textContent = DEMO_CREDENTIALS.otp;
+  }
   
   // Clear inputs and boot to landing page (Login view)
   resetLoginForm();
